@@ -1,0 +1,27 @@
+# Compiler and flags
+CXX = g++
+CXXFLAGS = -std=c++11
+SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+
+# Include directories
+INCLUDES = -Iinclude/
+
+# Source and object files
+SOURCES = $(wildcard *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
+
+# Executable name
+EXEC = search
+
+# Rules
+all: $(EXEC)
+
+$(EXEC): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(SFMLFLAGS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+
+clean:
+	rm -f $(OBJECTS) $(EXEC)
+
