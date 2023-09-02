@@ -40,40 +40,43 @@ int main()
         }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                    wall_cell = get_mouse_cell(window);
-                    if (wall_cell != start || wall_cell != goal) {
-                        map[wall_cell.second][wall_cell.first].setFillColor(BLACK);
+            sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+            if (mouse_pos.x >= 0 && mouse_pos.x <= window.getSize().x && mouse_pos.y >= 0 && mouse_pos.y <= window.getSize().y) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+                        wall_cell = get_mouse_cell(window);
+                        if (wall_cell != start || wall_cell != goal) {
+                            map[wall_cell.second][wall_cell.first].setFillColor(BLACK);
+                        }
+                        search_completed = false;
+                    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                        wall_cell = get_mouse_cell(window);
+                        if (wall_cell != start || wall_cell != goal) {
+                            map[wall_cell.second][wall_cell.first].setFillColor(GRAY);
+                        }
+                        search_completed = false;
+                    } else {
+                        if (start_set) {
+                            map[prev_start.second][prev_start.first].setFillColor(GRAY);
+                        }
+                        start = get_mouse_cell(window);
+                        map[start.second][start.first].setFillColor(RED);
+                        
+                        prev_start = start;
+                        start_set = true;
+                        search_completed = false;
                     }
-                    search_completed = false;
-                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                    wall_cell = get_mouse_cell(window);
-                    if (wall_cell != start || wall_cell != goal) {
-                        map[wall_cell.second][wall_cell.first].setFillColor(GRAY);
+                }
+                else {
+                    if (goal_set) {
+                        map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
                     }
-                    search_completed = false;
-                } else {
-                    if (start_set) {
-                        map[prev_start.second][prev_start.first].setFillColor(GRAY);
-                    }
-                    start = get_mouse_cell(window);
-                    map[start.second][start.first].setFillColor(RED);
-                    
-                    prev_start = start;
-                    start_set = true;
+                    goal = get_mouse_cell(window);
+                    map[goal.second][goal.first].setFillColor(YELLOW);
+                    prev_goal = goal;
+                    goal_set = true;
                     search_completed = false;
                 }
-            }
-            else {
-                if (goal_set) {
-                    map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
-                }
-                goal = get_mouse_cell(window);
-                map[goal.second][goal.first].setFillColor(YELLOW);
-                prev_goal = goal;
-                goal_set = true;
-                search_completed = false;
             }
         }
         
