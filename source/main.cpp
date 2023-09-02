@@ -20,7 +20,7 @@ int main()
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
 
-    bool bfs_completed = false;
+    bool search_completed = false;
 
     while (window.isOpen())
     {
@@ -41,20 +41,15 @@ int main()
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                // Step 1: Check if this is not first setting
                 if (start_set) {
                     map[prev_start.second][prev_start.first].setFillColor(GRAY);
                 }
-                // Step 2: Get new start.
                 start = get_mouse_cell(window);
-                
-                // Step 3: Set new start cell to red.
                 map[start.second][start.first].setFillColor(RED);
                 
-                // Step 4: Update prev_start.
                 prev_start = start;
                 start_set = true;
-                bfs_completed = false;
+                search_completed = false;
             }
             else {
                 if (goal_set) {
@@ -64,16 +59,16 @@ int main()
                 map[goal.second][goal.first].setFillColor(YELLOW);
                 prev_goal = goal;
                 goal_set = true;
-                bfs_completed = false;
+                search_completed = false;
             }
         }
         
-        if (start_set && goal_set && !bfs_completed) {
+        if (start_set && goal_set && !search_completed) {
             reset_map(map, window, start, goal);
             if (start != goal) {
                 run_bfs(map, start, goal);
             }
-            bfs_completed = true;
+            search_completed = true;
         }
 
         window.clear();
