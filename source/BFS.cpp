@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-std::vector<Coords> get_neighbors(Coords current, const Grid &grid) {
+std::vector<Coords> get_neighbors(Coords current) {
     std::vector<Coords> neighbors;
     int x = current.first;
     int y = current.second;
@@ -44,7 +44,7 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
         if (root == goal) {
             map[goal.second][goal.first].setFillColor(YELLOW);
 
-            Coords curr = parents[goal];
+            Coords curr = parents[goal];    // parents[goal] is null is start == goal, which is why we need to check if start == goal before running this function
             while (curr != start) {
                 map[curr.second][curr.first].setFillColor(BLUE);
                 curr = parents[curr];
@@ -53,10 +53,10 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
             return;
         }
 
-        for (auto neighbor : get_neighbors(root, map)) {
+        for (auto neighbor : get_neighbors(root)) {
             if (neighbor != start && map[neighbor.second][neighbor.first].getFillColor() != WHITE) {    //  Relying on checking node color is not elegant...
                 coords_q.push(neighbor);
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Not sure why node has the be marked "visited" right away...
+                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Not sure why node has to be marked "visited" right away...
                 parents[neighbor] = root;
             }
         }
