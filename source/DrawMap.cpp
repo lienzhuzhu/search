@@ -24,3 +24,10 @@ void draw_map(Grid& map, sf::RenderWindow& window) {
         }
     }
 }
+
+void reset_map(Grid& map, sf::RenderWindow& window, Coords& start, Coords& goal) {
+    map = init_map();
+    map[start.second][start.first].setFillColor(RED);
+    map[goal.second][goal.first].setFillColor(YELLOW);
+    //draw_map(map, window);
+}

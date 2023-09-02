@@ -19,6 +19,8 @@ int main()
     Coords prev_start, prev_goal;
     bool prev_start_set = false, prev_goal_set = false;
 
+    bool bfs_completed = false;
+
     while (window.isOpen())
     {
         delta_time = clock.restart().asSeconds();
@@ -51,6 +53,7 @@ int main()
                 // Step 4: Update prev_start.
                 prev_start = start;
                 prev_start_set = true;
+                bfs_completed = false;
             }
             else {
                 if (prev_goal_set) {
@@ -60,9 +63,15 @@ int main()
                 map[goal.second][goal.first].setFillColor(YELLOW);
                 prev_goal = goal;
                 prev_goal_set = true;
+                bfs_completed = false;
             }
         }
         
+        if (prev_start_set && prev_goal_set && !bfs_completed) {
+            reset_map(map, window, start, goal);
+            run_bfs(map, start, goal);
+            bfs_completed = true;
+        }
 
         window.clear();
 
