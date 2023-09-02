@@ -37,23 +37,26 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
 
     Coords root;
     while (!coords_q.empty()) {
+
         root = coords_q.front();
         coords_q.pop();
 
         if (root == goal) {
             map[goal.second][goal.first].setFillColor(YELLOW);
+
             Coords curr = parents[goal];
             while (curr != start) {
-                map[curr.second][curr.first].setFillColor(BLUE);  // e.g., BLUE for the path
+                map[curr.second][curr.first].setFillColor(BLUE);
                 curr = parents[curr];
             }
+
             return;
         }
 
         for (auto neighbor : get_neighbors(root, map)) {
-            if (neighbor != start && map[neighbor.second][neighbor.first].getFillColor() != WHITE) {
+            if (neighbor != start && map[neighbor.second][neighbor.first].getFillColor() != WHITE) {    //  Relying on checking node color is not elegant...
                 coords_q.push(neighbor);
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);
+                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Not sure why node has the be marked "visited" right away...
                 parents[neighbor] = root;
             }
         }
