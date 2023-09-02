@@ -9,7 +9,9 @@ void init_map(Grid& map) {
             curr_cell.setPosition( sf::Vector2f(col_i * CELL_SIZE, row_i * CELL_SIZE) );
             curr_cell.setOutlineColor(BLACK);
             curr_cell.setOutlineThickness(5.f);
-            curr_cell.setFillColor(GRAY);
+            if (curr_cell.getFillColor() != BLACK) {
+                curr_cell.setFillColor(GRAY);
+            }
         }
     }
 }

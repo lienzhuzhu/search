@@ -16,7 +16,7 @@ int main()
     sf::Clock clock;
     float delta_time = 0.0f;
 
-    Coords start, goal;
+    Coords start, goal, wall_cell;
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
 
@@ -41,15 +41,29 @@ int main()
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                if (start_set) {
-                    map[prev_start.second][prev_start.first].setFillColor(GRAY);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+                    wall_cell = get_mouse_cell(window);
+                    if (wall_cell != start || wall_cell != goal) {
+                        map[wall_cell.second][wall_cell.first].setFillColor(BLACK);
+                    }
+                    search_completed = false;
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                    wall_cell = get_mouse_cell(window);
+                    if (wall_cell != start || wall_cell != goal) {
+                        map[wall_cell.second][wall_cell.first].setFillColor(GRAY);
+                    }
+                    search_completed = false;
+                } else {
+                    if (start_set) {
+                        map[prev_start.second][prev_start.first].setFillColor(GRAY);
+                    }
+                    start = get_mouse_cell(window);
+                    map[start.second][start.first].setFillColor(RED);
+                    
+                    prev_start = start;
+                    start_set = true;
+                    search_completed = false;
                 }
-                start = get_mouse_cell(window);
-                map[start.second][start.first].setFillColor(RED);
-                
-                prev_start = start;
-                start_set = true;
-                search_completed = false;
             }
             else {
                 if (goal_set) {
