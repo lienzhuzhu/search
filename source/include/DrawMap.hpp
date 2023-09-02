@@ -3,6 +3,6 @@
 #include "global.hpp"
 
 
-Grid init_map();
+void init_map(Grid&);
 void draw_map(Grid&, sf::RenderWindow&);
 void reset_map(Grid&, sf::RenderWindow&, Coords&, Coords&);

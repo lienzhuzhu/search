@@ -10,7 +10,8 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...");
 
-    Grid map = init_map();
+    Grid map;
+    init_map(map);
 
     sf::Clock clock;
     float delta_time = 0.0f;

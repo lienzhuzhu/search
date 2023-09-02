@@ -1,8 +1,7 @@
 #include "include/DrawMap.hpp"
 
 
-Grid init_map() {
-    std::array<std::array<sf::RectangleShape, MAP_COLS>, MAP_ROWS> map;
+void init_map(Grid& map) {
     for (int row_i = 0; row_i < MAP_ROWS; ++row_i) {
         for (int col_i = 0; col_i < MAP_COLS; ++col_i) {
             sf::RectangleShape& curr_cell = map[row_i][col_i];
@@ -13,8 +12,6 @@ Grid init_map() {
             curr_cell.setFillColor(GRAY);
         }
     }
-
-    return map;
 }
 
 void draw_map(Grid& map, sf::RenderWindow& window) {
@@ -26,8 +23,7 @@ void draw_map(Grid& map, sf::RenderWindow& window) {
 }
 
 void reset_map(Grid& map, sf::RenderWindow& window, Coords& start, Coords& goal) {
-    map = init_map();
+    init_map(map);
     map[start.second][start.first].setFillColor(RED);
     map[goal.second][goal.first].setFillColor(YELLOW);
-    //draw_map(map, window);
 }
