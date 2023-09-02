@@ -30,9 +30,8 @@ std::vector<Coords> get_neighbors(Coords current, const Grid &grid) {
 
 void run_bfs(Grid& map, Coords& start, Coords& goal) {
 
-    std::cout << "starting bfs" << std::endl;
-
     std::queue<Coords> coords_q;
+    ParentMap parents;
 
     coords_q.push(start);
 
@@ -42,8 +41,12 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
         coords_q.pop();
 
         if (root == goal) {
-            std::cout << "found goal" << std::endl;
             map[goal.second][goal.first].setFillColor(YELLOW);
+            Coords curr = parents[goal];
+            while (curr != start) {
+                map[curr.second][curr.first].setFillColor(BLUE);  // e.g., BLUE for the path
+                curr = parents[curr];
+            }
             return;
         }
 
@@ -51,10 +54,10 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
             if (neighbor != start && map[neighbor.second][neighbor.first].getFillColor() != WHITE) {
                 coords_q.push(neighbor);
                 map[neighbor.second][neighbor.first].setFillColor(WHITE);
+                parents[neighbor] = root;
             }
         }
     }
 
-    std::cout << "ending bfs" << std::endl;
     return;
 }

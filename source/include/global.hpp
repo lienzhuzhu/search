@@ -11,6 +11,8 @@
 #define YELLOW sf::Color(255,240,124)
 #define WHITE sf::Color(240,247,238)
 #define RED sf::Color(255,102,99)
+#define BLUE sf::Color(0,109,170)
 
 using Grid = std::array<std::array<sf::RectangleShape, MAP_COLS>, MAP_ROWS>;
 using Coords = std::pair<unsigned short, unsigned short>;
+using ParentMap = std::map<Coords, Coords>;
