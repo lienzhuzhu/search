@@ -18,7 +18,7 @@ int main()
 
     Coords start, goal;
     Coords prev_start, prev_goal;
-    bool prev_start_set = false, prev_goal_set = false;
+    bool start_set = false, goal_set = false;
 
     bool bfs_completed = false;
 
@@ -42,7 +42,7 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                 // Step 1: Check if this is not first setting
-                if (prev_start_set) {
+                if (start_set) {
                     map[prev_start.second][prev_start.first].setFillColor(GRAY);
                 }
                 // Step 2: Get new start.
@@ -53,24 +53,26 @@ int main()
                 
                 // Step 4: Update prev_start.
                 prev_start = start;
-                prev_start_set = true;
+                start_set = true;
                 bfs_completed = false;
             }
             else {
-                if (prev_goal_set) {
+                if (goal_set) {
                     map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
                 }
                 goal = get_mouse_cell(window);
                 map[goal.second][goal.first].setFillColor(YELLOW);
                 prev_goal = goal;
-                prev_goal_set = true;
+                goal_set = true;
                 bfs_completed = false;
             }
         }
         
-        if (prev_start_set && prev_goal_set && !bfs_completed) {
+        if (start_set && goal_set && !bfs_completed) {
             reset_map(map, window, start, goal);
-            run_bfs(map, start, goal);
+            if (start != goal) {
+                run_bfs(map, start, goal);
+            }
             bfs_completed = true;
         }
 
