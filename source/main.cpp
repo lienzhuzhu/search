@@ -26,7 +26,7 @@ int main()
     {
         delta_time = clock.restart().asSeconds();
 
-        // Event handling
+        /* EVENT POLLING */
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -66,8 +66,7 @@ int main()
                         start_set = true;
                         search_completed = false;
                     }
-                }
-                else {
+                } else {
                     if (goal_set) {
                         map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
                     }
