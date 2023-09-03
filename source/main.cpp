@@ -8,7 +8,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...");
+    sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...", sf::Style::Titlebar | sf::Style::Close);
 
     Grid map;
     init_map(map);
