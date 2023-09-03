@@ -40,8 +40,7 @@ int main()
         }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-            sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-            if (mouse_pos.x >= 0 && mouse_pos.x <= window.getSize().x && mouse_pos.y >= 0 && mouse_pos.y <= window.getSize().y) {
+            if (mouse_is_in_bounds(window)) {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                         wall_cell = get_mouse_cell(window);
