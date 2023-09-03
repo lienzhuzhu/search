@@ -55,7 +55,7 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
         for (auto neighbor : get_neighbors(root)) {
             if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !is_wall_cell(map, neighbor) && neighbor != start) {    // Relying on checking node color is not elegant...
                 coords_q.push(neighbor);
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Must mark visited when enqueueing to optimize
+                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Must mark visited when enqueueing to optimize. Because of bouncing bfs runs multiple times...
                 parents[neighbor] = root;
             }
         }
