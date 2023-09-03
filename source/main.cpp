@@ -13,9 +13,6 @@ int main()
     Grid map;
     init_map(map);
 
-    sf::Clock clock;
-    float delta_time = 0.0f;
-
     Coords start, goal, wall_cell;
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
@@ -24,8 +21,6 @@ int main()
 
     while (window.isOpen())
     {
-        delta_time = clock.restart().asSeconds();
-
         /* EVENT POLLING */
         sf::Event event;
         while (window.pollEvent(event))
