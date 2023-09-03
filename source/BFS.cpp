@@ -37,14 +37,13 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
 
     Coords root;
     while (!coords_q.empty()) {
-
         root = coords_q.front();
         coords_q.pop();
 
         if (root == goal) {
             map[goal.second][goal.first].setFillColor(YELLOW);
 
-            Coords curr = parents[goal];    // parents[goal] is null is start == goal, which is why we need to check if start == goal before running this function
+            Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why we need to check if start == goal before running this function
             while (curr != start) {
                 map[curr.second][curr.first].setFillColor(BLUE);
                 curr = parents[curr];
@@ -54,9 +53,9 @@ void run_bfs(Grid& map, Coords& start, Coords& goal) {
         }
 
         for (auto neighbor : get_neighbors(root)) {
-            if (!is_wall_cell(map, neighbor) && neighbor != start && map[neighbor.second][neighbor.first].getFillColor() != WHITE) {    //  Relying on checking node color is not elegant...
+            if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !is_wall_cell(map, neighbor) && neighbor != start) {    // Relying on checking node color is not elegant...
                 coords_q.push(neighbor);
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Not sure why node has to be marked "visited" right away...
+                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Must mark visited when enqueueing to optimize
                 parents[neighbor] = root;
             }
         }
