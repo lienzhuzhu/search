@@ -89,9 +89,7 @@ int main()
         }
 
         window.clear();
-
         draw_map(map, window);
-
         window.display();
     }
 
