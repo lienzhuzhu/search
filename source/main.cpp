@@ -21,6 +21,10 @@ int main() {
     std::queue<Coords> coords_q;
     ParentMap parents;
 
+    sf::Clock clock;
+    const float dt = 1.0f / 60.0f; // Fixed timestep in seconds
+    float last_timestamp = dt;  // Stores when the next update should happen
+
 
     while (window.isOpen())
     {
@@ -76,12 +80,15 @@ int main() {
             }
         }
         
-        if (start_set && goal_set && !search_completed) {
-            reset_map(map, window, start, goal, coords_q, parents);
-            if (start != goal) {
-                run_bfs(map, start, goal, coords_q, parents);
+        float current_time = clock.getElapsedTime().asSeconds(); // Get the current time
+        if (current_time >= last_timestamp) {
+            if (start_set && goal_set && !search_completed) {
+                reset_map(map, window, start, goal, coords_q, parents);
+                if (start != goal) {
+                    run_bfs(map, start, goal, coords_q, parents);
+                }
+                search_completed = true;
             }
-            search_completed = true;
         }
 
         window.clear();
