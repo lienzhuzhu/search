@@ -18,3 +18,5 @@ using Coords = std::pair<unsigned short, unsigned short>;
 using ParentMap = std::map<Coords, Coords>;
 
 bool cell_is_wall(Grid&, Coords&);
+
+constexpr unsigned short CHECKS_PER_FRAME = 8;
