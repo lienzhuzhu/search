@@ -17,4 +17,4 @@ using Grid = std::array<std::array<sf::RectangleShape, MAP_COLS>, MAP_ROWS>;
 using Coords = std::pair<unsigned short, unsigned short>;
 using ParentMap = std::map<Coords, Coords>;
 
-bool is_wall_cell(Grid&, Coords&);
+bool cell_is_wall(Grid&, Coords&);

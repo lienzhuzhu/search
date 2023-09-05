@@ -8,13 +8,10 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...");
+    sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...", sf::Style::Titlebar | sf::Style::Close);
 
     Grid map;
     init_map(map);
-
-    sf::Clock clock;
-    float delta_time = 0.0f;
 
     Coords start, goal, wall_cell;
     Coords prev_start, prev_goal;
@@ -24,9 +21,7 @@ int main()
 
     while (window.isOpen())
     {
-        delta_time = clock.restart().asSeconds();
-
-        // Event handling
+        /* EVENT POLLING */
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -40,8 +35,7 @@ int main()
         }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-            sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-            if (mouse_pos.x >= 0 && mouse_pos.x <= window.getSize().x && mouse_pos.y >= 0 && mouse_pos.y <= window.getSize().y) {
+            if (mouse_is_in_bounds(window)) {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                         wall_cell = get_mouse_cell(window);
@@ -66,8 +60,7 @@ int main()
                         start_set = true;
                         search_completed = false;
                     }
-                }
-                else {
+                } else {
                     if (goal_set) {
                         map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
                     }
@@ -89,9 +82,7 @@ int main()
         }
 
         window.clear();
-
         draw_map(map, window);
-
         window.display();
     }
 
