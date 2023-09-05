@@ -6,8 +6,7 @@
 #include "include/HandleMouse.hpp"
 
 
-int main()
-{
+int main() {
     sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...", sf::Style::Titlebar | sf::Style::Close);
 
     Grid map;
@@ -18,6 +17,10 @@ int main()
     bool start_set = false, goal_set = false;
 
     bool search_completed = false;
+
+    std::queue<Coords> coords_q;
+    ParentMap parents;
+
 
     while (window.isOpen())
     {
@@ -74,9 +77,9 @@ int main()
         }
         
         if (start_set && goal_set && !search_completed) {
-            reset_map(map, window, start, goal);
+            reset_map(map, window, start, goal, coords_q, parents);
             if (start != goal) {
-                run_bfs(map, start, goal);
+                run_bfs(map, start, goal, coords_q, parents);
             }
             search_completed = true;
         }

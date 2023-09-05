@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <queue>
 
 #define MAP_ROWS 40
 #define MAP_COLS 60

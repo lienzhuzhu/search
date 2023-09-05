@@ -28,10 +28,7 @@ std::vector<Coords> get_neighbors(Coords current) {
 }
 
 
-void run_bfs(Grid& map, Coords& start, Coords& goal) {
-
-    std::queue<Coords> coords_q;
-    ParentMap parents;
+void run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
 
     coords_q.push(start);
 
