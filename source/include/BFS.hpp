@@ -6,5 +6,5 @@
 #include "global.hpp"
 
 
-std::vector<Coords> getNeighbors(Coords current, const Grid &grid);
+std::vector<Coords> get_neighbors(Coords current, const Grid &grid);
 void run_bfs(Grid&, Coords&, Coords&);
