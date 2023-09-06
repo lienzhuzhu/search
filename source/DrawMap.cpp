@@ -31,4 +31,5 @@ void reset_map(Grid& map, sf::RenderWindow& window, Coords& start, Coords& goal,
     std::queue<Coords> empty_q;
     coords_q.swap(empty_q);
     parents.clear();
+    coords_q.push(start);
 }

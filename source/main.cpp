@@ -16,7 +16,7 @@ int main() {
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
 
-    bool search_completed = false;
+    bool search_status = false;
 
     std::queue<Coords> coords_q;
     ParentMap parents;
@@ -26,9 +26,8 @@ int main() {
     float last_timestamp = dt;  // Stores when the next update should happen
 
 
-    while (window.isOpen())
-    {
-        /* EVENT POLLING */
+    while (window.isOpen()) {
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -49,13 +48,11 @@ int main() {
                         if (wall_cell != start || wall_cell != goal) {
                             map[wall_cell.second][wall_cell.first].setFillColor(BLACK);
                         }
-                        search_completed = false;
                     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
                         wall_cell = get_mouse_cell(window);
                         if (wall_cell != start || wall_cell != goal) {
                             map[wall_cell.second][wall_cell.first].setFillColor(GRAY);
                         }
-                        search_completed = false;
                     } else {
                         if (start_set) {
                             map[prev_start.second][prev_start.first].setFillColor(GRAY);
@@ -65,7 +62,6 @@ int main() {
                         
                         prev_start = start;
                         start_set = true;
-                        search_completed = false;
                     }
                 } else {
                     if (goal_set) {
@@ -75,19 +71,26 @@ int main() {
                     map[goal.second][goal.first].setFillColor(YELLOW);
                     prev_goal = goal;
                     goal_set = true;
-                    search_completed = false;
                 }
+                search_status = NOT_STARTED_YET;
             }
         }
         
         float current_time = clock.getElapsedTime().asSeconds(); // Get the current time
         if (current_time >= last_timestamp) {
-            if (start_set && goal_set && !search_completed) {
-                reset_map(map, window, start, goal, coords_q, parents);
-                if (start != goal) {
-                    run_bfs(map, start, goal, coords_q, parents);
+
+            last_timestamp += dt;
+
+            if (start_set && goal_set) {
+                if (search_status == NOT_STARTED_YET) {
+                    reset_map(map, window, start, goal, coords_q, parents);
                 }
-                search_completed = true;
+                
+                if (search_status != SEARCH_COMPLETED) {
+                    if (start != goal) {
+                        search_status = run_bfs(map, start, goal, coords_q, parents);
+                    }
+                }
             }
         }
 

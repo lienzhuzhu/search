@@ -20,4 +20,10 @@ using ParentMap = std::map<Coords, Coords>;
 
 bool cell_is_wall(Grid&, Coords&);
 
-constexpr unsigned short CHECKS_PER_FRAME = 8;
+constexpr unsigned short STEPS_PER_FRAME = 8;
+
+enum SearchStatus {
+    NOT_STARTED_YET = 0,
+    SEARCH_COMPLETED,
+    SEARCH_IN_PROGRESS
+};
