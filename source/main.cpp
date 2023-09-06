@@ -16,7 +16,7 @@ int main() {
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
 
-    bool search_status = false;
+    SearchStatus search_status = NOT_STARTED_YET;
 
     std::queue<Coords> coords_q;
     ParentMap parents;

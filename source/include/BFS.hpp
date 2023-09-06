@@ -6,4 +6,4 @@
 
 
 std::vector<Coords> get_neighbors(Coords current, const Grid &grid);
-int run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents);
+SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents);

@@ -28,30 +28,38 @@ std::vector<Coords> get_neighbors(Coords current) {
 }
 
 
-int run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
+SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
 
 
     Coords root;
     for (int i = 0; i < STEPS_PER_FRAME; ++i) {
+        //std::cout << i << std::endl;
 
         if (coords_q.empty()) {
             return SEARCH_COMPLETED;
         }
 
+        root = coords_q.front();
+        coords_q.pop();
+        std::cout << root.second << " " << root.first << std::endl;
+
         if (root == goal) {
-           map[goal.second][goal.first].setFillColor(YELLOW);
+            std::cout << "search completed" << std::endl;
 
-           Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why in main() we need to check
-                                           // if start == goal before running run_bfs()
-           while (curr != start) {
-               map[curr.second][curr.first].setFillColor(BLUE);
-               curr = parents[curr];
-           }
+            map[goal.second][goal.first].setFillColor(YELLOW);
 
-           return SEARCH_COMPLETED;
+            Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why in main() we need to check
+                                            // if start == goal before running run_bfs()
+            while (curr != start) {
+                map[curr.second][curr.first].setFillColor(BLUE);
+                curr = parents[curr];
+            }
+
+            return SEARCH_COMPLETED;
         }
 
         for (auto neighbor : get_neighbors(root)) {
+            //std::cout << neighbor.second << " " << neighbor.first << std::endl;
 
             // REFACTOR: Relying on checking node color is not elegant...
             if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {
@@ -63,34 +71,6 @@ int run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q
             }
         }
     }
-
-
-
-
-    //while (!coords_q.empty()) {
-    //    root = coords_q.front();
-    //    coords_q.pop();
-
-    //    if (root == goal) {
-    //        map[goal.second][goal.first].setFillColor(YELLOW);
-
-    //        Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why we need to check if start == goal before running this function
-    //        while (curr != start) {
-    //            map[curr.second][curr.first].setFillColor(BLUE);
-    //            curr = parents[curr];
-    //        }
-
-    //        return;
-    //    }
-
-    //    for (auto neighbor : get_neighbors(root)) {
-    //        if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {    // Relying on checking node color is not elegant...
-    //            coords_q.push(neighbor);
-    //            map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Must mark visited when enqueueing to optimize. Because of bouncing bfs runs multiple times...
-    //            parents[neighbor] = root;
-    //        }
-    //    }
-    //}
 
     return SEARCH_IN_PROGRESS;
 }
