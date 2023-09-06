@@ -24,8 +24,12 @@ void draw_map(Grid& map, sf::RenderWindow& window) {
     }
 }
 
-void reset_map(Grid& map, sf::RenderWindow& window, Coords& start, Coords& goal) {
+void reset_map(Grid& map, sf::RenderWindow& window, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
     init_map(map);
     map[start.second][start.first].setFillColor(RED);
     map[goal.second][goal.first].setFillColor(YELLOW);
+    std::queue<Coords> empty_q;
+    coords_q.swap(empty_q);
+    parents.clear();
+    coords_q.push(start);
 }

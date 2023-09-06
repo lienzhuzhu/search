@@ -28,38 +28,45 @@ std::vector<Coords> get_neighbors(Coords current) {
 }
 
 
-void run_bfs(Grid& map, Coords& start, Coords& goal) {
+SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
 
-    std::queue<Coords> coords_q;
-    ParentMap parents;
-
-    coords_q.push(start);
 
     Coords root;
-    while (!coords_q.empty()) {
+    for (int i = 0; i < STEPS_PER_FRAME; ++i) {
+
+        if (coords_q.empty()) {
+            return SEARCH_COMPLETED;
+        }
+
         root = coords_q.front();
         coords_q.pop();
 
         if (root == goal) {
+
             map[goal.second][goal.first].setFillColor(YELLOW);
 
-            Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why we need to check if start == goal before running this function
+            Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why in main() we need to check
+                                            // if start == goal before running run_bfs()
             while (curr != start) {
                 map[curr.second][curr.first].setFillColor(BLUE);
                 curr = parents[curr];
             }
 
-            return;
+            return SEARCH_COMPLETED;
         }
 
         for (auto neighbor : get_neighbors(root)) {
-            if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {    // Relying on checking node color is not elegant...
+
+            // REFACTOR: Relying on checking node color is not elegant...
+            if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {
                 coords_q.push(neighbor);
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);   // Must mark visited when enqueueing to optimize. Because of bouncing bfs runs multiple times...
+
+                // NOTE: Must mark visited when enqueueing to optimize. Because of bouncing bfs runs multiple times...
+                map[neighbor.second][neighbor.first].setFillColor(WHITE);   
                 parents[neighbor] = root;
             }
         }
     }
 
-    return;
+    return SEARCH_IN_PROGRESS;
 }
