@@ -33,7 +33,6 @@ SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>&
 
     Coords root;
     for (int i = 0; i < STEPS_PER_FRAME; ++i) {
-        //std::cout << i << std::endl;
 
         if (coords_q.empty()) {
             return SEARCH_COMPLETED;
@@ -41,10 +40,8 @@ SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>&
 
         root = coords_q.front();
         coords_q.pop();
-        std::cout << root.second << " " << root.first << std::endl;
 
         if (root == goal) {
-            std::cout << "search completed" << std::endl;
 
             map[goal.second][goal.first].setFillColor(YELLOW);
 
@@ -59,7 +56,6 @@ SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>&
         }
 
         for (auto neighbor : get_neighbors(root)) {
-            //std::cout << neighbor.second << " " << neighbor.first << std::endl;
 
             // REFACTOR: Relying on checking node color is not elegant...
             if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {
