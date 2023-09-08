@@ -35,6 +35,8 @@ int main() {
                 case sf::Event::Closed:
                     window.close();
                     break;
+                case sf::Event::MouseButtonReleased:
+                    search_status = SEARCH_IN_PROGRESS;
                 default:
                     break;
             }
@@ -75,6 +77,7 @@ int main() {
                 search_status = NOT_STARTED_YET;
             }
         }
+
         
         float current_time = clock.getElapsedTime().asSeconds(); // Get the current time
         if (current_time >= last_timestamp) {
@@ -86,7 +89,7 @@ int main() {
                     reset_map(map, window, start, goal, coords_q, parents);
                 }
                 
-                if (search_status != SEARCH_COMPLETED) {
+                if (search_status == SEARCH_IN_PROGRESS) {
                     if (start != goal) {
                         search_status = run_bfs(map, start, goal, coords_q, parents);
                     }
