@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <queue>
+#include <iostream>
+#include <unordered_set>
 
 #define MAP_ROWS 40
 #define MAP_COLS 60

@@ -1,5 +1,4 @@
 #include "include/BFS.hpp"
-#include <iostream>
 
 
 std::vector<Coords> get_neighbors(Coords current) {
