@@ -1,5 +1,4 @@
 #include <chrono>
-#include <iostream>
 
 #include "include/BFS.hpp"
 #include "include/DrawMap.hpp"
