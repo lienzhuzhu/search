@@ -1,7 +1,7 @@
 #include <chrono>
 
 #include "include/BFS.hpp"
-#include "include/DrawMap.hpp"
+#include "include/Map.hpp"
 #include "include/HandleMouse.hpp"
 
 

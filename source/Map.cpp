@@ -1,4 +1,4 @@
-#include "include/DrawMap.hpp"
+#include "include/Map.hpp"
 
 
 void init_map(Grid& map) {
