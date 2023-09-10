@@ -2,10 +2,10 @@
 
 
 Coords get_mouse_cell(const sf::RenderWindow& window) {
-    float mouse_x = sf::Mouse::getPosition(window).x;
-    float mouse_y = sf::Mouse::getPosition(window).y;
+    unsigned int mouse_x = sf::Mouse::getPosition(window).x;
+    unsigned int mouse_y = sf::Mouse::getPosition(window).y;
 
-    return Coords(floor(mouse_x / CELL_SIZE), floor(mouse_y / CELL_SIZE));
+    return {mouse_x / CELL_SIZE, mouse_y / CELL_SIZE};
 }
 
 bool mouse_is_in_bounds(const sf::RenderWindow& window) {
