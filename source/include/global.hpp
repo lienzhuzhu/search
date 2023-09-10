@@ -32,7 +32,7 @@ using GridSquares = std::array<std::array<State, MAP_ROWS>, MAP_COLS>;
 using Coords = std::array<unsigned int, 2>;
 using ParentMap = std::map<Coords, Coords>;
 
-constexpr unsigned short STEPS_PER_FRAME = 8;
+constexpr unsigned short STEPS_PER_FRAME = 10;
 
 enum SearchStatus {
     NOT_STARTED_YET = 0,
