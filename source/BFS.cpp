@@ -1,34 +1,25 @@
 #include "include/BFS.hpp"
 
 
-std::vector<Coords> get_neighbors(Coords current) {
+std::vector<Coords> get_neighbors(Coords node) {
     std::vector<Coords> neighbors;
-    int x = current.first;
-    int y = current.second;
+    unsigned int x = node[X];
+    unsigned int y = node[Y];
 
-    // Check above
-    if (y > 0) {
-        neighbors.push_back(Coords(x, y - 1));
-    }
-    // Check below
-    if (y < MAP_ROWS - 1) {
-        neighbors.push_back(Coords(x, y + 1));
-    }
-    // Check left
-    if (x > 0) {
-        neighbors.push_back(Coords(x - 1, y));
-    }
-    // Check right
-    if (x < MAP_COLS - 1) {
-        neighbors.push_back(Coords(x + 1, y));
-    }
+    if (y > 0)
+        neighbors.push_back({x, y - 1});
+    if (y < MAP_ROWS - 1) 
+        neighbors.push_back({x, y + 1});
+    if (x > 0)
+        neighbors.push_back({x - 1, y});
+    if (x < MAP_COLS - 1)
+        neighbors.push_back({x + 1, y});
 
     return neighbors;
 }
 
 
-SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
-
+SearchStatus run_bfs(Grid &grid, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
 
     Coords root;
     for (int i = 0; i < STEPS_PER_FRAME; ++i) {
@@ -42,12 +33,12 @@ SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>&
 
         if (root == goal) {
 
-            map[goal.second][goal.first].setFillColor(YELLOW);
+            grid.set_state(goal, State::GOAL);
 
             Coords curr = parents[goal];    // parents[goal] is null if start == goal, which is why in main() we need to check
                                             // if start == goal before running run_bfs()
             while (curr != start) {
-                map[curr.second][curr.first].setFillColor(BLUE);
+                grid.set_state(curr, State::PATH);
                 curr = parents[curr];
             }
 
@@ -56,16 +47,23 @@ SearchStatus run_bfs(Grid& map, Coords& start, Coords& goal, std::queue<Coords>&
 
         for (auto neighbor : get_neighbors(root)) {
 
-            // REFACTOR: Relying on checking node color is not elegant...
-            if (map[neighbor.second][neighbor.first].getFillColor() != WHITE && !cell_is_wall(map, neighbor) && neighbor != start) {
+            if (grid.get_state(neighbor) != State::VISITED && !grid.cell_is_wall(neighbor) && neighbor != start) {
                 coords_q.push(neighbor);
-
-                // NOTE: Must mark visited when enqueueing to optimize. Because of bouncing bfs runs multiple times...
-                map[neighbor.second][neighbor.first].setFillColor(WHITE);   
+                grid.set_state(neighbor, State::VISITED);
                 parents[neighbor] = root;
             }
         }
     }
 
     return SEARCH_IN_PROGRESS;
+}
+
+void reset_bfs(Grid& grid, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
+    grid.reset();
+    grid.set_state(start, State::START);
+    grid.set_state(goal, State::GOAL);
+    std::queue<Coords> empty_q;
+    coords_q.swap(empty_q);
+    parents.clear();
+    coords_q.push(start);
 }

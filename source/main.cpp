@@ -1,28 +1,26 @@
 #include <chrono>
 
 #include "include/BFS.hpp"
-#include "include/Map.hpp"
+#include "include/Grid.hpp"
 #include "include/HandleMouse.hpp"
 
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(CELL_SIZE * MAP_COLS, CELL_SIZE * MAP_ROWS), "Artificial Intelligence finds its path...", sf::Style::Titlebar | sf::Style::Close);
 
-    Grid map;
-    init_map(map);
+    Grid search_grid(window);
 
     Coords start, goal, wall_cell;
     Coords prev_start, prev_goal;
     bool start_set = false, goal_set = false;
-
     SearchStatus search_status = NOT_STARTED_YET;
 
     std::queue<Coords> coords_q;
     ParentMap parents;
 
     sf::Clock clock;
-    const float dt = 1.0f / 60.0f; // Fixed timestep in seconds
-    float last_timestamp = dt;  // Stores when the next update should happen
+    const float dt = 1.0f / 60.0f;
+    float last_timestamp = dt;
 
 
     while (window.isOpen()) {
@@ -47,29 +45,29 @@ int main() {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                         wall_cell = get_mouse_cell(window);
                         if (wall_cell != start || wall_cell != goal) {
-                            map[wall_cell.second][wall_cell.first].setFillColor(BLACK);
+                            search_grid.set_state(wall_cell, State::WALL);
                         }
                     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
                         wall_cell = get_mouse_cell(window);
                         if (wall_cell != start || wall_cell != goal) {
-                            map[wall_cell.second][wall_cell.first].setFillColor(GRAY);
+                            search_grid.set_state(wall_cell, State::EMPTY);
                         }
                     } else {
                         if (start_set) {
-                            map[prev_start.second][prev_start.first].setFillColor(GRAY);
+                            search_grid.set_state(prev_start, State::EMPTY);
                         }
                         start = get_mouse_cell(window);
-                        map[start.second][start.first].setFillColor(RED);
+                        search_grid.set_state(start, State::START);
                         
                         prev_start = start;
                         start_set = true;
                     }
                 } else {
                     if (goal_set) {
-                        map[prev_goal.second][prev_goal.first].setFillColor(GRAY);
+                        search_grid.set_state(prev_goal, State::EMPTY);
                     }
                     goal = get_mouse_cell(window);
-                    map[goal.second][goal.first].setFillColor(YELLOW);
+                    search_grid.set_state(goal, State::GOAL);
                     prev_goal = goal;
                     goal_set = true;
                 }
@@ -85,19 +83,19 @@ int main() {
 
             if (start_set && goal_set) {
                 if (search_status == NOT_STARTED_YET) {
-                    reset_map(map, window, start, goal, coords_q, parents);
+                    reset_bfs(search_grid, start, goal, coords_q, parents);
                 }
                 
                 if (search_status == SEARCH_IN_PROGRESS) {
                     if (start != goal) {
-                        search_status = run_bfs(map, start, goal, coords_q, parents);
+                        search_status = run_bfs(search_grid, start, goal, coords_q, parents);
                     }
                 }
             }
         }
 
         window.clear();
-        draw_map(map, window);
+        search_grid.draw();
         window.display();
     }
 
