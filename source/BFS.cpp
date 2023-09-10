@@ -1,7 +1,7 @@
 #include "include/BFS.hpp"
 
 
-std::vector<Coords> get_neighbors(Coords node) {
+std::vector<Coords> get_neighbors(Coords &node) {
     std::vector<Coords> neighbors;
     unsigned int x = node[X];
     unsigned int y = node[Y];
@@ -19,7 +19,7 @@ std::vector<Coords> get_neighbors(Coords node) {
 }
 
 
-SearchStatus run_bfs(Grid &grid, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
+SearchStatus run_bfs(Grid &grid, Coords &start, Coords &goal, std::queue<Coords> &coords_q, ParentMap &parents) {
 
     Coords root;
     for (int i = 0; i < STEPS_PER_FRAME; ++i) {
