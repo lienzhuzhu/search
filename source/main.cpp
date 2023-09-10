@@ -49,7 +49,7 @@ int main() {
                         }
                     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
                         wall_cell = get_mouse_cell(window);
-                        if (wall_cell != start || wall_cell != goal) {
+                        if (wall_cell != start && wall_cell != goal) {
                             search_grid.set_state(wall_cell, State::EMPTY);
                         }
                     } else {
