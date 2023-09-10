@@ -1,7 +1,7 @@
 #include "include/Grid.hpp"
 
 
-Grid::Grid(sf::RenderWindow& window) : window_(window) {
+Grid::Grid(sf::RenderWindow &window) : window_(window) {
     for (int col_i = 0; col_i < MAP_COLS; ++col_i) {
         for (int row_i = 0; row_i < MAP_ROWS; ++row_i) {
             grid_[col_i][row_i] = State::EMPTY;
@@ -64,16 +64,16 @@ void Grid::reset() {
 }
 
 
-void Grid::set_state(Coords& cell, State state) {
+void Grid::set_state(Coords &cell, State state) {
     grid_[cell[X]][cell[Y]] = state;
 }
 
 
-State Grid::get_state(Coords& cell) {
+State Grid::get_state(Coords &cell) {
     return grid_[cell[X]][cell[Y]];
 }
 
 
-bool Grid::cell_is_wall(Coords& cell) {
+bool Grid::cell_is_wall(Coords &cell) {
     return grid_[cell[X]][cell[Y]] == State::WALL;
 }

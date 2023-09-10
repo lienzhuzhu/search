@@ -58,7 +58,7 @@ SearchStatus run_bfs(Grid &grid, Coords &start, Coords &goal, std::queue<Coords>
     return SEARCH_IN_PROGRESS;
 }
 
-void reset_bfs(Grid& grid, Coords& start, Coords& goal, std::queue<Coords>& coords_q, ParentMap& parents) {
+void reset_bfs(Grid &grid, Coords &start, Coords &goal, std::queue<Coords> &coords_q, ParentMap &parents) {
     grid.reset();
     grid.set_state(start, State::START);
     grid.set_state(goal, State::GOAL);

@@ -76,20 +76,18 @@ int main() {
         }
 
         
-        float current_time = clock.getElapsedTime().asSeconds(); // Get the current time
+        float current_time = clock.getElapsedTime().asSeconds();
         if (current_time >= last_timestamp) {
 
             last_timestamp += dt;
 
             if (start_set && goal_set) {
-                if (search_status == NOT_STARTED_YET) {
+                if (search_status == NOT_STARTED_YET)
                     reset_bfs(search_grid, start, goal, coords_q, parents);
-                }
                 
                 if (search_status == SEARCH_IN_PROGRESS) {
-                    if (start != goal) {
+                    if (start != goal)
                         search_status = run_bfs(search_grid, start, goal, coords_q, parents);
-                    }
                 }
             }
         }

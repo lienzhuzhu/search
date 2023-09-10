@@ -13,6 +13,6 @@ public:
     bool cell_is_wall(Coords&);
 
 private:
-    sf::RenderWindow& window_;
+    sf::RenderWindow &window_;
     GridSquares grid_;
 };
