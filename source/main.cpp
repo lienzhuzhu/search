@@ -44,7 +44,7 @@ int main() {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                         wall_cell = get_mouse_cell(window);
-                        if (wall_cell != start || wall_cell != goal) {
+                        if (wall_cell != start && wall_cell != goal) {
                             search_grid.set_state(wall_cell, State::WALL);
                         }
                     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
