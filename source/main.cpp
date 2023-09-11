@@ -18,7 +18,8 @@ int main() {
     std::queue<Coords> coords_q;
     ParentMap parents;
 
-    sf::Clock clock;
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     const float dt = 1.0f / 60.0f;
     float last_timestamp = dt;
 
@@ -76,7 +77,7 @@ int main() {
         }
 
         
-        float current_time = clock.getElapsedTime().asSeconds();
+        auto current_time = std::chrono::duration_cast<std::chrono::duration<float>>(std::chrono::high_resolution_clock::now() - start_time).count();
         if (current_time >= last_timestamp) {
 
             last_timestamp += dt;
