@@ -1,10 +1,12 @@
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++11
-SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Include directories
-INCLUDES = -Iinclude/
+INCLUDES = -Iinclude/ -I/opt/homebrew/include/
+
+LINKFLAGS = -L/opt/homebrew/lib
+SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Source files
 SOURCES = $(wildcard *.cpp)
@@ -14,7 +16,7 @@ EXEC = search
 
 # Rules
 all:
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(EXEC) $(SFMLFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(EXEC) $(LINKFLAGS) $(SFMLFLAGS)
 
 clean:
 	rm -f $(EXEC)
